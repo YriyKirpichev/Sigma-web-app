@@ -1,0 +1,11 @@
+<header th:fragment="header" class="site-header sticky-top py-1">
+  <nav class="container d-flex flex-column flex-md-row justify-content-between">
+    <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/">Main Page</a>
+    <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/catalog">Catalog</a>
+    <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/about">About us</a>
+    <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/support">Support</a>
+  </nav>
+  <a th:href="@{/login}" class = "btn btn-primary btn-sm mb-3">Login</a>
+  <a th:href="@{/logout}" class = "btn btn-primary btn-sm mb-3">Logout</a>
+  <a th:href="@{/register}" class = "btn btn-primary btn-sm mb-3">Register</a>
+</header>
