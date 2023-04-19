@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+
+  db:
+    image: mysql
+    command:
+          --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+    - MYSQL_ROOT_PASSWORD = root
+    - MYSQL_DATABASE = travelAgency
+    - MYSQLDB_USER = root
+    ports:
+      - 3306:3306
+
+  localstack:
+    image: localstack/localstack:0.11.4
+    ports:
+      - 4572:4572
+    environment:
+      SERVICES: s3
+      DATA_DIR: /data
+    volumes:
+      - type: volume
+        source: localstack
+        target: /data
+volumes:
+  localstack: {}
