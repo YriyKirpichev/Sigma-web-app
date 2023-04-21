@@ -1,11 +1,28 @@
-<header th:fragment="header" class="site-header sticky-top py-1">
+<header th:fragment="header" class="site-header sticky-top py-1" xmlns="http://www.w3.org/1999/xhtml">
   <nav class="container d-flex flex-column flex-md-row justify-content-between">
-    <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/">Main Page</a>
-    <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/catalog">Catalog</a>
-    <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/about">About us</a>
-    <a class="py-2 d-none d-md-inline-block text-decoration-none" href="/support">Support</a>
+    <a class="py-2 d-none d-md-inline-block text-decoration-none" th:href="@{/}">Main Page</a>
+    <a class="py-2 d-none d-md-inline-block text-decoration-none" th:href="@{/catalog}">Catalog</a>
+    <a class="py-2 d-none d-md-inline-block text-decoration-none" th:href="@{/about}">About us</a>
+    <a class="py-2 d-none d-md-inline-block text-decoration-none" th:href="@{/support}">Support</a>
   </nav>
-  <a th:href="@{/login}" class = "btn btn-primary btn-sm mb-3">Login</a>
+  <a th:href="@{/signin}" class = "btn btn-primary btn-sm mb-3">Login</a>
   <a th:href="@{/logout}" class = "btn btn-primary btn-sm mb-3">Logout</a>
   <a th:href="@{/register}" class = "btn btn-primary btn-sm mb-3">Register</a>
+
+  <div th:if="${#authorization.authentication.isAuthenticated()}">
+    <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" >
+      <a href="/admin"></a>
+    </div>
+    <div th:if="${#authorization.expression('hasRole(''ROLE_MANGER'')')}" >
+      <a href="/manager"></a>
+    </div>
+    <div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" >
+      <a href="/user"></a>
+    </div>
+  </div>
+
+  <a th:href="@{/admin}" class = "btn btn-primary btn-sm mb-3">Admin</a>
+  <a th:href="@{/user}" class = "btn btn-primary btn-sm mb-3">User</a>
+  <a th:href="@{/manager}" class = "btn btn-primary btn-sm mb-3">Manager</a>
+
 </header>

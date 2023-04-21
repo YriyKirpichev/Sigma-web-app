@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <title>Catalog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+
+    <th:block th:insert="styles :: styles"></th:block>
+</head>
+<body>
+
+<th:block th:insert="blocks/header :: header"></th:block>
+
+<div class="album py-5 bg-light container">
+    <div class="container-md">
+        <h2 class="mb-4"> Registration </h2>
+
+<!--        <th:block th:if="${session.msg}">-->
+<!--            <p class="text-center fs-4 text-success">[[${session.msg}]]</p>-->
+<!--            <th:block th:text="${#session.removeAttribute('msg')}"></th:block>-->
+<!--        </th:block>-->
+
+        <form th:action="@{/create-user}" th:object="${user}" method="POST">
+            <div class="col-6">
+                <input
+                        type="text"
+                        name="firstName"
+                        th:field="*{firstName}"
+                        placeholder="firstName"
+                        class="form-control mb-2">
+                <input
+                        type="text"
+                        name="secondName"
+                        th:field="*{secondName}"
+                        placeholder="middleName"
+                        class="form-control mb-2">
+                <input
+                        type="text"
+                        name="middleName"
+                        th:field="*{middleName}"
+                        placeholder="secondName"
+                        class="form-control mb-2">
+                <input
+                        type="date"
+                        name="middleName"
+                        th:field="*{birthDate}"
+                        placeholder="middleName"
+                        class="form-control mb-2">
+                <input
+                        type="text"
+                        name="phone"
+                        th:field="*{phone}"
+                        placeholder="phone"
+                        class="form-control mb-2">
+                <input
+                        type="text"
+                        name="username"
+                        th:field="*{username}"
+                        placeholder="username"
+                        class="form-control mb-2">
+
+                <input
+                        type="text"
+                        name="password"
+                        th:field="*{password}"
+                        placeholder="password"
+                        class="form-control mb-2">
+
+                <button type="submit" class="btn btn-primary mb-2">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<th:block th:insert="blocks/footer :: footer"></th:block>
+
+
+</body>
+</html>
