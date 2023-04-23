@@ -22,12 +22,14 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public User createUser(User user) {
+    public User createUser(User user,String role) {
         log.info("Create user: '{}'", user.getUsername());
+      //  log.info("Create user: '{},{},{},{},{},{},{},{}'", user.getFirstName(),user.getMiddleName(),user.getSecondName(), user.getUsername(),user.getPassword(),user.getBirthDate(),user.getPhone(),user.getId());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Role userRole = roleRepository.findByName("ROLE_USER").stream()
+        Role userRole = roleRepository.findByName(role).stream()
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("User cannot be created"));
+      //  log.info("Role: '{}'",userRole.getName());
         user.setRoles(List.of(userRole));
         return userRepository.save(user);
     }

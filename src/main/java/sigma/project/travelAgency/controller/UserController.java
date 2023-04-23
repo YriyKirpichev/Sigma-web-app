@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 import sigma.project.travelAgency.entity.User;
 import sigma.project.travelAgency.service.imp.UserServiceImpl;
 
@@ -15,6 +16,7 @@ import java.security.Principal;
 @Slf4j
 @Controller
 @AllArgsConstructor
+@RequestMapping("/user")
 public class UserController {
 
     private UserServiceImpl userService;
@@ -29,7 +31,7 @@ public class UserController {
         model.addAttribute("user", user);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/")
     public String userAccount(Model model){
         return "/userAccount";
     }

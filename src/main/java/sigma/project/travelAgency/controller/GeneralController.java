@@ -26,6 +26,14 @@ public class GeneralController {
 
     private UserServiceImpl userService;
 
+    @ModelAttribute
+    private void addUserDetails(Model model, Principal principal, Authentication authentication) {
+        if (principal != null) {
+            User user = userService.getUserByUsername(principal.getName());
+            model.addAttribute("user", user);
+        }
+    }
+
     @GetMapping("/")
     public String home(Model model) {
         return "home";
@@ -56,7 +64,7 @@ public class GeneralController {
     }
 
     @PostMapping(value = "/create-user", consumes = MediaType.ALL_VALUE)
-    public String createUser(@ModelAttribute User user, HttpSession session) { //@RequestParam("image") MultipartFile file
+    public String createUser(@ModelAttribute("user") User user, HttpSession session) { //@RequestParam("image") MultipartFile file
         if (userService.checkUsername(user.getUsername())) {
             log.info("User with this email already exists");
             session.setAttribute("msg", String.format("Email '%s' already used", user.getUsername()));
@@ -64,7 +72,7 @@ public class GeneralController {
             try {
 //                String filename = UUIDHelper.random();
 //                user.setImageId(filename);
-                userService.createUser(user);
+                userService.createUser(user,"ROLE_USER");
 //                fileService.uploadFile(filename, user.getEmail(), file);
                 session.setAttribute("msg", "Register successfully");
             } catch (Exception exception) {
