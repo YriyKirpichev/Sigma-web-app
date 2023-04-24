@@ -12,7 +12,7 @@
 <th:block th:insert="blocks/header :: header"></th:block>
 
 <div class = "Container mt-5">
-  <h1 th:text="AdminPanel"></h1>
+  <h1 th:text="User"></h1>
 
   <h3>Name : [[${user.firstName}]] [[${user.secondName}]] [[${user.middleName}]]</h3>
   <h3>Username : [[${user.username}]]</h3>
@@ -22,10 +22,6 @@
   <h3>Sale : [[${user.Sale}]]</h3>
   <h3>Birth Date : [[${user.birthDate}]]</h3>
 
-  </div>
-
-<div>
-  <a href="/admin/add-manager" class = "btn btn-primary btn-sm mb-3">IFManager</a>
 </div>
 
 <th:block th:insert="blocks/footer :: footer"></th:block>

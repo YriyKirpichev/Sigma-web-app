@@ -22,18 +22,14 @@ public class UserController {
     private UserServiceImpl userService;
 
     @ModelAttribute
-    private void addUserDetails(Model model, Principal principal, Authentication authentication) {
+    private void addUserDetails(Model model, Principal principal) {
         User user = userService.getUserByUsername(principal.getName());
-        if (authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> "ROLE_USER".equals(grantedAuthority.getAuthority()))) {
-            model.addAttribute("users", userService.getAllUsers());
-        }
         model.addAttribute("user", user);
     }
 
     @GetMapping("/")
     public String userAccount(Model model){
-        return "/userAccount";
+        return "userAccount";
     }
 
 }

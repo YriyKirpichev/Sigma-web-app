@@ -12,15 +12,15 @@
 
   <div th:if="${#authorization.authentication.isAuthenticated()}">
     <div class="row row-cols-auto" >
-    <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="col" >
-      <a href="/admin/" class = "btn btn-primary btn-sm mb-3">IFAdmin</a>
-    </div>
-    <div th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" class="col" >
-      <a href="/manager/" class = "btn btn-primary btn-sm mb-3">IFManager</a>
-    </div>
-    <div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="col" >
-      <a href="/user/" class = "btn btn-primary btn-sm mb-3">IFUser</a>
-    </div>
+      <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="col" >
+        <a href="/admin/" class = "btn btn-primary btn-sm mb-3">IFAdmin</a>
+      </div>
+      <div th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" class="col" >
+        <a href="/manager/" class = "btn btn-primary btn-sm mb-3">IFManager</a>
+      </div>
+      <div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" class="col" >
+        <a href="/user/" class = "btn btn-primary btn-sm mb-3">IFUser</a>
+      </div>
     </div>
   </div>
 
