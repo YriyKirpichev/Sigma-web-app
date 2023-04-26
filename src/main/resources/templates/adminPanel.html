@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Catalog</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <th:block th:insert="styles :: styles"></th:block>
+</head>
+<body>
+
+<th:block th:insert="blocks/header :: header"></th:block>
+
+<div class = "Container mt-5">
+  <h1 th:text="AdminPanel"></h1>
+
+  <h3>Name : [[${user.firstName}]] [[${user.secondName}]] [[${user.middleName}]]</h3>
+  <h3>Username : [[${user.username}]]</h3>
+  <h3>phone : [[${user.phone}]]</h3>
+  <h3>Is Banned? : [[${user.isBanned}]]</h3>
+  <h3>Ban Description : [[${user.banDescription}]]</h3>
+  <h3>Sale : [[${user.Sale}]]</h3>
+  <h3>Birth Date : [[${user.birthDate}]]</h3>
+
+  </div>
+
+<div>
+  <a href="/admin/add-manager" class = "btn btn-primary btn-sm mb-3">Create Manager</a>
+</div>
+
+<div>
+  <a href="/admin/add-tour" class = "btn btn-primary btn-sm mb-3">Create Tour</a>
+</div>
+
+<th:block th:insert="blocks/footer :: footer"></th:block>
+
+</body>
+</html>
