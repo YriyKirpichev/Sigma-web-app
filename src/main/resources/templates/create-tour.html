@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+  <title>Catalog</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+          crossorigin="anonymous"></script>
+
+  <th:block th:insert="styles :: styles"></th:block>
+</head>
+<body>
+
+<th:block th:insert="blocks/header :: header"></th:block>
+
+<div class="album py-5 bg-light container">
+  <div class="container-md">
+    <h2 class="mb-4"> Add Tour </h2>
+
+    <th:block th:if="${session.msg}">
+      <p class="text-center fs-4 text-success">[[${session.msg}]]</p>
+      <!--                <th:block th:text="${#messages.setMsg('')}"></th:block>-->
+    </th:block>
+
+    <form th:action="@{/admin/create-tour}"   method="POST">
+
+      <br>
+      <h5>Tour</h5>
+      <br>
+
+      <div class="col-6" th:object="${tour}">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{title}"
+                placeholder="tour title"
+                class="form-control mb-2">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{description}"
+                placeholder="tour description"
+                class="form-control mb-2">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{cost}"
+                placeholder="tour cost"
+                class="form-control mb-2">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{flagFire}"
+                placeholder="tour flagFire"
+                class="form-control mb-2">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{count}"
+                placeholder="tour count"
+                class="form-control mb-2">
+      </div>
+
+      <H3> Add Hotel </H3>
+      <br>
+      <h5>Hotel</h5>
+      <br>
+      <div class="col-6" th:object="${hotel}">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{hotelName}"
+                placeholder="hotel hotelName"
+                class="form-control mb-2">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{hotelLocation}"
+                placeholder="hotel hotelLocation"
+                class="form-control mb-2">
+
+      </div>
+      <br>
+      <h5>Hotel Class</h5>
+      <br>
+      <div class="col-6" th:object="${hotelClass}">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{hotelClassName}"
+                placeholder="hotelClass name"
+                class="form-control mb-2">
+
+      </div>
+      <br>
+      <h5>Room</h5>
+      <br>
+      <div class="col-6" th:object="${room}">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{numberOfPeople}"
+                placeholder="room numberOfPeople"
+                class="form-control mb-2">
+      </div>
+      <br>
+      <h5>Features</h5>
+      <br>
+      <div class="col-6" th:object="${features}">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{horseType}"
+                placeholder="features horseType"
+                class="form-control mb-2">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{featuresName}"
+                placeholder="features featuresName"
+                class="form-control mb-2">
+      </div>
+      <br>
+      <h5>Companion</h5>
+      <br>
+      <div class="col-6" th:object="${companion}">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{firstName}"
+                placeholder="companion firstName"
+                class="form-control mb-2">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{secondName}"
+                placeholder="companion secondName"
+                class="form-control mb-2">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{phone}"
+                placeholder="companion phone"
+                class="form-control mb-2">
+      </div>
+      <br>
+      <h3> Add Bus </h3>
+      <br>
+      <h5> BusType </h5>
+      <br>
+      <div class="col-6" th:object="${busType}">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{name}"
+                placeholder="busType name"
+                class="form-control mb-2">
+        <input
+                type="text"
+                name="secondName"
+                th:field="*{seatCount}"
+                placeholder="busType seatCount"
+                class="form-control mb-2">
+      </div>
+      <br>
+      <h5> Bus </h5>
+      <br>
+      <div class="col-6" th:object="${bus}">
+        <input
+                type="text"
+                name="firstName"
+                th:field="*{firmName}"
+                placeholder="bus firmName"
+                class="form-control mb-2">
+        <br>
+        <h5> Timetable </h5>
+        <br>
+        <div class="col-6" th:object="${timetable}">
+          <input
+                  type="date"
+                  name="firstName"
+                  th:field="*{departureDate}"
+                  placeholder="timetable departureDate"
+                  class="form-control mb-2">
+          <input
+                  type="date"
+                  name="firstName"
+                  th:field="*{dateArrivalAtHotel}"
+                  placeholder="timetable dateArrivalAtHotel"
+                  class="form-control mb-2">
+          <input
+                  type="date"
+                  name="firstName"
+                  th:field="*{dateCheckoutFromHotel}"
+                  placeholder="timetable dateCheckoutFromHotel"
+                  class="form-control mb-2">
+          <input
+                  type="date"
+                  name="firstName"
+                  th:field="*{arrivalDate}"
+                  placeholder="timetable arrivalDate"
+                  class="form-control mb-2">
+        </div>
+        <br>
+
+        <button type="submit" class="btn btn-primary mb-2">Add</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<th:block th:insert="blocks/footer :: footer"></th:block>
+
+
+</body>
+</html>
