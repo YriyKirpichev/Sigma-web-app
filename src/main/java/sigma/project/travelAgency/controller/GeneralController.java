@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import sigma.project.travelAgency.entity.Tour;
 import sigma.project.travelAgency.entity.User;
+import sigma.project.travelAgency.service.imp.TourServiceImpl;
 import sigma.project.travelAgency.service.imp.UserServiceImpl;
 
 import java.security.Principal;
@@ -25,6 +27,7 @@ import java.security.Principal;
 public class GeneralController {
 
     private UserServiceImpl userService;
+    private TourServiceImpl tourService;
 
     @ModelAttribute
     private void addUserDetails(Model model, Principal principal, Authentication authentication) {
@@ -47,8 +50,8 @@ public class GeneralController {
 
     @GetMapping("/catalog")
     public String catalog (Model model){
-        //Iterable<Tour> tour = tourService.getAllTour();
-       // model.addAttribute("tours", tour);
+        Iterable<Tour> tour = tourService.findAll();
+        model.addAttribute("tours", tour);
         return "catalog";
     }
 
