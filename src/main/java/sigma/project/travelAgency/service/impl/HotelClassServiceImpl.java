@@ -1,9 +1,8 @@
-package sigma.project.travelAgency.service.imp;
+package sigma.project.travelAgency.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import sigma.project.travelAgency.entity.Hotel;
 import sigma.project.travelAgency.entity.HotelClass;
 import sigma.project.travelAgency.repository.HotelClassRepository;
 import sigma.project.travelAgency.service.HotelClassService;

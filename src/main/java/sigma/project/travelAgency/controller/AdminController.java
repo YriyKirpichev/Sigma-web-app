@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sigma.project.travelAgency.entity.*;
-import sigma.project.travelAgency.service.imp.*;
+import sigma.project.travelAgency.service.impl.*;
 
 import java.security.Principal;
 
