@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Catalog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+
+    <th:block th:insert="styles :: styles"></th:block>
+</head>
+<body>
+
+<th:block th:insert="blocks/header :: header"></th:block>
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <h2> Catalog </h2>
+
+<!--        <div sec:authorize="hasRole('ROLE_ADMIN')">-->
+<!--            <a href="/admin/">Admin Panel</a>-->
+<!--        </div>-->
+
+<!--        <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'',''ROLE_USER'',''ROLE_MANAGER'')')}">-->
+<!--            <a href="/user/">My account</a>-->
+<!--        </div>-->
+
+        <div th:if="${#authorization.authentication.isAuthenticated()}">
+            <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" >
+                <a href="/admin"></a>
+            </div>
+            <div th:if="${#authorization.expression('hasRole(''ROLE_MANGER'')')}" >
+                <a href="/manager"></a>
+            </div>
+            <div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" >
+                <a href="/user"></a>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div th:each="tour : ${tours}" class="col">
+                <div class="card shadow-sm card-body">
+                    <h2 th:text="${tour.title}" class="card-text"></h2>
+                    <div class="">
+<!--                        <img th:src="@{/images/img3.png}" class="rounded mx-auto d-block md-2" alt="">-->
+                        <p th:text="${tour.description}" class="card-text"></p>
+                        <h4 th:text="${tour.cost}" class="card-text"></h4>
+                        <h5 th:text="${tour.hotel.getHotelName()}" class="card-text"></h5>
+                        <h5 th:text="${tour.getBusFirmName()}" class="card-text"></h5> <!-- Поменять и удалить сделать по нормальному-->
+                        <h6 th:text="${tour.timetable.iterator().next().getDepartureDate()}" class="card-text"> </h6>
+                        <h6 th:text="${tour.timetable.iterator().next().getDateCheckoutFromHotel()}" class="card-text"> </h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    <a th:href="@{/admin/delete-tour/{id} (id=${tour.id})}" class="text-decoration-none"> Delete </a>
+                                </button>
+
+                            </div>
+                         <small th:text="'Fire:' + ${tour.flagFire}" class="text-muted"></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:insert="blocks/footer :: footer"></th:block>
+
+
+</body>
+</html>
