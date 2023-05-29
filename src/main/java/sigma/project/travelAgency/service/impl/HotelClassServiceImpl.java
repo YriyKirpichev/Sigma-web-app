@@ -1,9 +1,10 @@
-package sigma.project.travelAgency.service.imp;
+package sigma.project.travelAgency.service.impl;
 
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import sigma.project.travelAgency.entity.Hotel;
+import jakarta.transaction.Transactional;
 import sigma.project.travelAgency.entity.HotelClass;
 import sigma.project.travelAgency.repository.HotelClassRepository;
 import sigma.project.travelAgency.service.HotelClassService;
@@ -16,6 +17,7 @@ import java.util.List;
 public class HotelClassServiceImpl implements HotelClassService{
 
     private HotelClassRepository hotelClassRepository;
+    private EntityManager entityManager;
 
 
     @Override
@@ -25,9 +27,11 @@ public class HotelClassServiceImpl implements HotelClassService{
     }
 
     @Override
-    public void deleteHotelClassById(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         log.info("Delete Hotel Class with id: '{}'", id);
-        hotelClassRepository.deleteById(id);
+        HotelClass managedHotelClass = entityManager.merge(hotelClassRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Hotel Class doesn't exists")));
+        entityManager.remove(managedHotelClass);
     }
 
     @Override

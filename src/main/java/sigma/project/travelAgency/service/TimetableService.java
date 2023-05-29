@@ -6,11 +6,13 @@ import java.util.List;
 
 public interface TimetableService {
 
-    Timetable create(Timetable timetable);
+    List<Timetable> create(List<Timetable> timetable);
 
-    void delete(Long id);
+    void deleteById(Long id);
 
     List<Timetable> findAll();
+
+    Timetable findById(Long id);
 
     boolean checkTimetable(String date);
 

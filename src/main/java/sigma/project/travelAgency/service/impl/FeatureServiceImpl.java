@@ -1,11 +1,15 @@
-package sigma.project.travelAgency.service.imp;
+package sigma.project.travelAgency.service.impl;
 
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
 import sigma.project.travelAgency.entity.Feature;
 import sigma.project.travelAgency.repository.FeaturesRepository;
 import sigma.project.travelAgency.service.FeatureService;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -13,18 +17,20 @@ import sigma.project.travelAgency.service.FeatureService;
 public class FeatureServiceImpl implements FeatureService {
 
     private FeaturesRepository featuresRepository;
-
+    private EntityManager entityManager;
 
     @Override
-    public Feature create(Feature feature) {
-        log.info("Create feature: '{}' '{}'", feature.getFeaturesName(),feature.getHorseType());
-        return featuresRepository.save(feature);
+    public List<Feature> create(List<Feature> feature) {
+      //  log.info("Create feature: '{}' '{}'", feature.getFeaturesName(),feature.getHorseType());
+        return featuresRepository.saveAll(feature);
     }
 
     @Override
-    public void deleteFeature(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         log.info("Delete feature by id: '{}'", id);
-        featuresRepository.deleteById(id);
+        Feature managedFeature = entityManager.merge(featuresRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Feature doesn't exists")));
+        entityManager.remove(managedFeature);
     }
 
     @Override

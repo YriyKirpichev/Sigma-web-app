@@ -2,11 +2,13 @@ package sigma.project.travelAgency.service;
 
 import sigma.project.travelAgency.entity.Feature;
 
+import java.util.List;
+
 public interface FeatureService {
 
-    Feature create (Feature feature);
+    List<Feature> create (List<Feature> feature);
 
-    void deleteFeature (Long id);
+    void deleteById(Long id);
 
     Feature getFeatureByName(String name);
 

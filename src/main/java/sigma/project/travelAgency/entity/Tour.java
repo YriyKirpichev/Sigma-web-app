@@ -9,7 +9,6 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tour")
@@ -31,11 +30,11 @@ public class Tour {
     private Collection<Bus> bus;
 
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE},fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE},fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE},fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE},fetch = FetchType.EAGER)
     @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 
@@ -49,6 +48,8 @@ public class Tour {
 
     private boolean flagFire;
 
+    private String image;
+
     @JsonIgnore
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE},
             fetch = FetchType.EAGER)
@@ -59,6 +60,42 @@ public class Tour {
 
     public String getBusFirmName(){
         return bus.iterator().next().getFirmName();
+    }
+
+    public String getHorseType(){
+        return hotel.getFeatures().iterator().next().getHorseType();
+    }
+
+    public String getFeaturesName(){
+        return hotel.getFeatures().iterator().next().getFeaturesName();
+    }
+
+    public int getNumberOfPeople(){
+        return hotel.getRooms().iterator().next().getNumberOfPeople();
+    }
+
+    public String getDepartureDate(){
+        return timetable.iterator().next().getDepartureDate();
+    }
+
+    public String getDateArrivalAtHotel(){
+        return timetable.iterator().next().getDateArrivalAtHotel();
+    }
+
+    public String getDateCheckoutFromHotel(){
+        return timetable.iterator().next().getDateCheckoutFromHotel();
+    }
+
+    public String getArrivalDate(){
+        return timetable.iterator().next().getArrivalDate();
+    }
+
+    public String getBusTypeName(){
+        return bus.iterator().next().getBusType().getName();
+    }
+
+    public int getBusTypeSeatCount(){
+        return bus.iterator().next().getBusType().getSeatCount();
     }
 
 }

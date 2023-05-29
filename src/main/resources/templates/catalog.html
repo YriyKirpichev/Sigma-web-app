@@ -19,46 +19,65 @@
     <div class="container">
         <h2> Catalog </h2>
 
-<!--        <div sec:authorize="hasRole('ROLE_ADMIN')">-->
-<!--            <a href="/admin/">Admin Panel</a>-->
-<!--        </div>-->
-
-<!--        <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'',''ROLE_USER'',''ROLE_MANAGER'')')}">-->
-<!--            <a href="/user/">My account</a>-->
-<!--        </div>-->
-
-        <div th:if="${#authorization.authentication.isAuthenticated()}">
-            <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" >
-                <a href="/admin"></a>
-            </div>
-            <div th:if="${#authorization.expression('hasRole(''ROLE_MANGER'')')}" >
-                <a href="/manager"></a>
-            </div>
-            <div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" >
-                <a href="/user"></a>
-            </div>
+        <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary">
+                <a th:href="@{/admin/create-tour-test}" class="text-decoration-none"> Create test tour </a>
+            </button>
         </div>
+
+        <form th:action="@{/catalog}" method="post" th:object="${filters}">
+            <div class="row">
+                <div class="col-sm-2">
+                    <select id="filter" name="filter" class="form-select">
+                        <option value="0">Фільтрувати за:</option>
+                        <option th:each="filter : ${filters.getFilter()}" th:value="${filter}"
+                                th:text="${filter}"></option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <button type="submit" class="btn btn-primary">Застосувати фільтр</button>
+                </div>
+
+            </div>
+        </form>
+
+        <br>
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <div th:each="tour : ${tours}" class="col">
-                <div class="card shadow-sm card-body">
-                    <h2 th:text="${tour.title}" class="card-text"></h2>
-                    <div class="">
-<!--                        <img th:src="@{/images/img3.png}" class="rounded mx-auto d-block md-2" alt="">-->
-                        <p th:text="${tour.description}" class="card-text"></p>
-                        <h4 th:text="${tour.cost}" class="card-text"></h4>
-                        <h5 th:text="${tour.hotel.getHotelName()}" class="card-text"></h5>
-                        <h5 th:text="${tour.getBusFirmName()}" class="card-text"></h5> <!-- Поменять и удалить сделать по нормальному-->
-                        <h6 th:text="${tour.timetable.iterator().next().getDepartureDate()}" class="card-text"> </h6>
-                        <h6 th:text="${tour.timetable.iterator().next().getDateCheckoutFromHotel()}" class="card-text"> </h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">
-                                    <a th:href="@{/admin/delete-tour/{id} (id=${tour.id})}" class="text-decoration-none"> Delete </a>
-                                </button>
+                <div class="card shadow-sm">
+                    <img th:src="@{/image/tour/{id} (id=${tour.id})}" class="bd-placeholder-img card-img-top" width="100%" height="225">
+                    <div class="card-body">
 
+                        <h2 th:text="${tour.title}" class="card-text"></h2>
+                        <div>
+                            <p th:text="${tour.description}" class="card-text"></p>
+                            <h4 th:text="${tour.cost}" class="card-text"></h4>
+                            <h5 th:text="${tour.hotel.getHotelName()}" class="card-text"></h5>
+                            <h5 th:text="${tour.getBusFirmName()}" class="card-text"></h5>
+                            <!-- Поменять и удалить сделать по нормальному-->
+                            <h6 th:text="${tour.getDepartureDate()}" class="card-text"></h6>
+                            <h6 th:text="${tour.getDateCheckoutFromHotel()}"
+                                class="card-text"></h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">
+                                        <a th:href="@{/admin/delete-tour/{id} (id=${tour.id})}"
+                                           class="text-decoration-none"> Delete </a>
+                                    </button>
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">
+                                        <a th:href="@{/tour/{id} (id=${tour.id})}" class="text-decoration-none">
+                                            View </a>
+                                    </button>
+                                </div>
+                                <div class="btn-group">
+                                    <th:block th:if="${tour.flagFire}">
+                                        <img th:src="@{/image/fire}" style="width:15px;height:20px">
+                                    </th:block>
+                                </div>
                             </div>
-                         <small th:text="'Fire:' + ${tour.flagFire}" class="text-muted"></small>
                         </div>
                     </div>
                 </div>

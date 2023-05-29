@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface HotelService {
 
-    Hotel createHotel(Hotel hotel, Room room, Feature feature, Companion companion, HotelClass hotelClass);
+    Hotel createHotel(Hotel hotel, List<Room> room, List<Feature> features, Companion companion, HotelClass hotelClass);
 
-    void delete(Long id);
+    void deleteById(Long id);
 
     Hotel findByName(String name);
 

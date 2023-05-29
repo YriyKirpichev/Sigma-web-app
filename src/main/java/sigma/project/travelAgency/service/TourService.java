@@ -6,18 +6,22 @@ import sigma.project.travelAgency.entity.Timetable;
 import sigma.project.travelAgency.entity.Tour;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TourService {
 
-    Tour createTour (Tour tour, Timetable timetable, Hotel hotel, Bus bus);
+    Tour createTour (Tour tour, List<Timetable> timetable, Hotel hotel, Bus bus,String image);
 
-    void deleteTour(Long id);
+    Tour createTourTest(Tour tour);
+    void deleteById(Long id);
 
     List<Tour> findAll();
 
     boolean checkTour(String title);
 
     Tour getTourByTitle(String title);
+
+    Tour getTourById(Long id);
+
+    List<Tour> getByFlagFire();
 
 }

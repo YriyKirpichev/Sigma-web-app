@@ -14,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
-
 public class LoginSecurityConfig{
 
     UserDetailsServiceImpl userDetailsService;
@@ -43,7 +42,7 @@ public class LoginSecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/admin/**","/admin").hasRole("ADMIN")
                 .requestMatchers("/user/**").hasRole("USER")
                 .requestMatchers("/manager/**").hasRole("MANAGER")
                 .requestMatchers("/**").permitAll()
@@ -63,5 +62,4 @@ public class LoginSecurityConfig{
                 .disable();
         return http.build();
     }
-
 }

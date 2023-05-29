@@ -7,7 +7,6 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "status")
@@ -19,5 +18,9 @@ public class Status {
     private Long id;
 
     private String name;
+
+    private String destination;
+
+
 
 }

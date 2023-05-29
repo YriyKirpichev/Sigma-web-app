@@ -7,12 +7,13 @@ import lombok.*;
 import java.util.Collection;
 
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "features")
 public class Feature {
 
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

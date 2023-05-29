@@ -1,27 +1,75 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Catalog</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-  <th:block th:insert="styles :: styles"></th:block>
+    <title>Catalog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+    <th:block th:insert="styles :: styles"></th:block>
 </head>
 <body>
 
 <th:block th:insert="blocks/header :: header"></th:block>
+<div class="album py-5 bg-light container">
+    <div class="Container mt-5">
 
-<div class = "Container mt-5">
-  <h1 th:text="User"></h1>
+        <th:block th:if="${user.isBanned()}">
 
-    <h3>Name : [[${user.firstName}]] [[${user.secondName}]] [[${user.middleName}]]</h3>
-    <h3>Username : [[${user.username}]]</h3>
-    <h3>phone : [[${user.phone}]]</h3>
-    <h3>Is Banned? : [[${user.isBanned}]]</h3>
-    <h3>Ban Description : [[${user.banDescription}]]</h3>
-    <h3>Sale : [[${user.Sale}]]</h3>
-    <h3>Birth Date : [[${user.birthDate}]]</h3>
+        <div class="row py-lg-5">
 
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h3 class="text-center" th:text="'Ви заблоковані!'"></h3>
+                <h3 class="text-center" th:text="${user.getBanDescription()}"></h3>
+                <h4 class="text-center" th:text="'Зробить необхідін дії для розблакування і натиснить відповідну кнопку.'"></h4>
+            </div>
+
+        </div>
+
+        </th:block>
+
+        <h1 th:text="User"></h1>
+
+        <h3>Name : [[${user.firstName}]] [[${user.secondName}]] [[${user.middleName}]]</h3>
+        <h3>Username : [[${user.username}]]</h3>
+        <h3>phone : [[${user.phone}]]</h3>
+        <h3>Is Banned? : [[${user.isBanned}]]</h3>
+        <h3>Ban Description : [[${user.banDescription}]]</h3>
+        <h3>Sale : [[${user.Sale}]]</h3>
+        <h3>Birth Date : [[${user.birthDate}]]</h3>
+
+        <div class="accordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne"
+                            aria-expanded="true" aria-controls="collapseOne">
+                        Ваши замовлення
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="accordion-body" th:each="request : ${tourRequests}">
+
+                            <h5 th:text="${request.getOrderDate()}"></h5>
+                            <h5 th:text="${request.getStatus().getName()}"></h5>
+                            <h5 th:text="${request.getTour().getTitle()}"></h5>
+                            <h5 th:text="${request.getTour().getBusFirmName()}"></h5>
+                            <h5 th:text="${request.getTour().hotel.getHotelName()}"></h5>
+                            <h5 th:text="${request.getTour().hotel.getHotelClass().hotelClassName}"></h5>
+                            <h5 th:text="${request.getTour().getDepartureDate}"></h5>
+                            <h5 th:text="${request.getTour().getDateArrivalAtHotel}"></h5>
+                            <h5 th:text="${request.getTour().getDateCheckoutFromHotel}"></h5>
+                            <h5 th:text="${request.getTour().getArrivalDate}"></h5>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <th:block th:insert="blocks/footer :: footer"></th:block>

@@ -9,7 +9,6 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "timetable")

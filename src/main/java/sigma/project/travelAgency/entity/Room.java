@@ -7,7 +7,6 @@ import lombok.*;
 import java.util.Collection;
 
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "room")

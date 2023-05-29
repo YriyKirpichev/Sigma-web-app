@@ -14,4 +14,8 @@ public interface BusTypeService {
 
     List<BusType> getAllBusType();
 
+    void deleteById(Long id);
+
+    List<String> generateSeatCod(int seatCount);
+
 }

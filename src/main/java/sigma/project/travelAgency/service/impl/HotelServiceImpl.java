@@ -1,14 +1,14 @@
-package sigma.project.travelAgency.service.imp;
+package sigma.project.travelAgency.service.impl;
 
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
 import sigma.project.travelAgency.entity.*;
 import sigma.project.travelAgency.repository.HotelRepository;
 import sigma.project.travelAgency.service.HotelService;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Slf4j
@@ -17,29 +17,28 @@ import java.util.List;
 public class HotelServiceImpl implements HotelService {
 
     private HotelRepository hotelRepository;
+    private EntityManager entityManager;
 
     @Override
-    public Hotel createHotel(Hotel hotel, Room room, Feature feature, Companion companion, HotelClass hotelClass) {
+    public Hotel createHotel(Hotel hotel, List<Room> rooms, List<Feature> features, Companion companion, HotelClass hotelClass) {
         log.info("Create Hotel: '{}'", hotel.getHotelName());
 
         hotel.setHotelClass(hotelClass);
         hotel.setCompanion(companion);
 
-        List<Feature> features = new ArrayList<>();
-        features.add(feature);
         hotel.setFeatures(features);
 
-        List<Room> rooms = new ArrayList<>();
-        rooms.add(room);
         hotel.setRooms(rooms);
 
         return hotelRepository.save(hotel);
     }
 
     @Override
-    public void delete(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         log.info("Delete hotel by id: '{}'",id );
-        hotelRepository.deleteById(id);
+        Hotel managedHotel = entityManager.merge(hotelRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Hotel doesn't exists")));
+        entityManager.remove(managedHotel);
     }
 
     @Override

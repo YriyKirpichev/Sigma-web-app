@@ -7,12 +7,10 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Date;
 
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
@@ -30,7 +28,7 @@ public class User implements Serializable {
 
     private String middleName ;
 
-    private String username ; // email
+    private String username ;
 
     private String phone ;
 

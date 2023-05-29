@@ -1,8 +1,10 @@
-package sigma.project.travelAgency.service.imp;
+package sigma.project.travelAgency.service.impl;
 
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
 import sigma.project.travelAgency.entity.Companion;
 import sigma.project.travelAgency.entity.Hotel;
 import sigma.project.travelAgency.repository.CompanionRepository;
@@ -15,6 +17,7 @@ import sigma.project.travelAgency.service.CompanionService;
 public class CompanionServiceImpl implements CompanionService {
 
     private CompanionRepository companionRepository;
+    private EntityManager entityManager;
 
     @Override
     public Companion create(Companion companion) {
@@ -41,8 +44,10 @@ public class CompanionServiceImpl implements CompanionService {
     }
 
     @Override
-    public void deleteCompanion(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         log.info("Deleting companion by id: '{}'", id);
-        companionRepository.deleteById(id);
+        Companion managedCompanion = entityManager.merge(companionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Companion doesn't exists")));
+        entityManager.remove(managedCompanion);
     }
 }

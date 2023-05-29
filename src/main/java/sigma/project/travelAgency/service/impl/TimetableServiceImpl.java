@@ -1,8 +1,10 @@
-package sigma.project.travelAgency.service.imp;
+package sigma.project.travelAgency.service.impl;
 
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
 import sigma.project.travelAgency.entity.Timetable;
 import sigma.project.travelAgency.repository.TimetableRepository;
 import sigma.project.travelAgency.service.TimetableService;
@@ -15,22 +17,31 @@ import java.util.List;
 public class TimetableServiceImpl  implements TimetableService {
 
     private TimetableRepository timetableRepository;
+    private EntityManager entityManager;
 
     @Override
-    public Timetable create(Timetable timetable) {
-        log.info("Create Timetable: '{}' - '{}'", timetable.getDepartureDate(), timetable.getDateCheckoutFromHotel());
-        return timetableRepository.save(timetable);
+    public List<Timetable> create(List<Timetable> timetable) {
+        log.info("Create Timetable:" + timetable.size());
+        return timetableRepository.saveAll(timetable);
     }
 
     @Override
-    public void delete(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         log.info("Delete Timetable by id: '{}'", id);
-        timetableRepository.deleteById(id);
+        Timetable managedTimetable = entityManager.merge(timetableRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Timetable doesn't exists")));
+        entityManager.remove(managedTimetable);
     }
 
     @Override
     public List<Timetable> findAll() {
         return timetableRepository.findAll();
+    }
+
+
+    @Override
+    public Timetable findById(Long id){
+        return timetableRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Timetable doesn't exists"));
     }
 
     @Override

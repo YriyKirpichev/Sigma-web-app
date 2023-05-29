@@ -1,5 +1,7 @@
-package sigma.project.travelAgency.service.imp;
+package sigma.project.travelAgency.service.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.List;
 public class BusServiceImpl implements BusService {
 
     private BusRepository busRepository;
+    private EntityManager entityManager;
 
 
     @Override
@@ -25,12 +28,16 @@ public class BusServiceImpl implements BusService {
         return busRepository.save(bus);
     }
 
-    @Override
-    public void delete(Long id) {
-        log.info("Delete Bus by id: '{}'", id);
-        busRepository.deleteById(id);
-    }
 
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        log.info("Delete Bus by id: '{}'", id);
+
+        Bus managedBus = entityManager.merge(busRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Bus doesn't exists")));
+        entityManager.remove(managedBus);
+
+    }
 
     @Override
     public Bus getBusByName(String name) {

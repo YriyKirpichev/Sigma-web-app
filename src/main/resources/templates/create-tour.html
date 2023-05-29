@@ -2,219 +2,376 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
 
-  <title>Catalog</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-          crossorigin="anonymous"></script>
+    <title>Catalog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <th:block th:insert="styles :: styles"></th:block>
+    <th:block th:insert="styles :: styles"></th:block>
 </head>
 <body>
 
 <th:block th:insert="blocks/header :: header"></th:block>
 
 <div class="album py-5 bg-light container">
-  <div class="container-md">
-    <h2 class="mb-4"> Add Tour </h2>
+    <div class="container-md">
+        <h2 class="mb-4"> Add Tour </h2>
 
-    <th:block th:if="${session.msg}">
-      <p class="text-center fs-4 text-success">[[${session.msg}]]</p>
-      <!--                <th:block th:text="${#messages.setMsg('')}"></th:block>-->
-    </th:block>
+        <th:block th:if="${session.msg}">
+            <p class="text-center fs-4 text-success">[[${session.msg}]]</p>
+            <!--                <th:block th:text="${#messages.setMsg('')}"></th:block>-->
+        </th:block>
 
-    <form th:action="@{/admin/create-tour}"   method="POST">
+        <form th:action="@{/admin/create-tour}" method="POST" enctype="multipart/form-data">
 
-      <br>
-      <h5>Tour</h5>
-      <br>
+            <div class="col-6" th:object="${tour}">
 
-      <div class="col-6" th:object="${tour}">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{title}"
-                placeholder="tour title"
-                class="form-control mb-2">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{description}"
-                placeholder="tour description"
-                class="form-control mb-2">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{cost}"
-                placeholder="tour cost"
-                class="form-control mb-2">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{flagFire}"
-                placeholder="tour flagFire"
-                class="form-control mb-2">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{count}"
-                placeholder="tour count"
-                class="form-control mb-2">
-      </div>
+                <label for="tour title"> Назва туру: </label>
+                <input
+                        id="tour title"
+                        type="text"
+                        name="firstName"
+                        th:field="*{title}"
+                        placeholder="tour title"
+                        class="form-control mb-2" required>
 
-      <H3> Add Hotel </H3>
-      <br>
-      <h5>Hotel</h5>
-      <br>
-      <div class="col-6" th:object="${hotel}">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{hotelName}"
-                placeholder="hotel hotelName"
-                class="form-control mb-2">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{hotelLocation}"
-                placeholder="hotel hotelLocation"
-                class="form-control mb-2">
+                <label for="tour description"> Опис туру: </label>
+                <input
+                        id="tour description"
+                        type="text"
+                        name="tour description"
+                        th:field="*{description}"
+                        placeholder="tour description"
+                        class="form-control mb-2" required>
 
-      </div>
-      <br>
-      <h5>Hotel Class</h5>
-      <br>
-      <div class="col-6" th:object="${hotelClass}">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{hotelClassName}"
-                placeholder="hotelClass name"
-                class="form-control mb-2">
+                <label for="tour cost"> Ціна туру: </label>
+                <input
+                        id="tour cost"
+                        type="text"
+                        name="tour cost"
+                        th:field="*{cost}"
+                        placeholder="tour cost"
+                        class="form-control mb-2" required>
 
-      </div>
-      <br>
-      <h5>Room</h5>
-      <br>
-      <div class="col-6" th:object="${room}">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{numberOfPeople}"
-                placeholder="room numberOfPeople"
-                class="form-control mb-2">
-      </div>
-      <br>
-      <h5>Features</h5>
-      <br>
-      <div class="col-6" th:object="${features}">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{horseType}"
-                placeholder="features horseType"
-                class="form-control mb-2">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{featuresName}"
-                placeholder="features featuresName"
-                class="form-control mb-2">
-      </div>
-      <br>
-      <h5>Companion</h5>
-      <br>
-      <div class="col-6" th:object="${companion}">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{firstName}"
-                placeholder="companion firstName"
-                class="form-control mb-2">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{secondName}"
-                placeholder="companion secondName"
-                class="form-control mb-2">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{phone}"
-                placeholder="companion phone"
-                class="form-control mb-2">
-      </div>
-      <br>
-      <h3> Add Bus </h3>
-      <br>
-      <h5> BusType </h5>
-      <br>
-      <div class="col-6" th:object="${busType}">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{name}"
-                placeholder="busType name"
-                class="form-control mb-2">
-        <input
-                type="text"
-                name="secondName"
-                th:field="*{seatCount}"
-                placeholder="busType seatCount"
-                class="form-control mb-2">
-      </div>
-      <br>
-      <h5> Bus </h5>
-      <br>
-      <div class="col-6" th:object="${bus}">
-        <input
-                type="text"
-                name="firstName"
-                th:field="*{firmName}"
-                placeholder="bus firmName"
-                class="form-control mb-2">
-        <br>
-        <h5> Timetable </h5>
-        <br>
-        <div class="col-6" th:object="${timetable}">
-          <input
-                  type="date"
-                  name="firstName"
-                  th:field="*{departureDate}"
-                  placeholder="timetable departureDate"
-                  class="form-control mb-2">
-          <input
-                  type="date"
-                  name="firstName"
-                  th:field="*{dateArrivalAtHotel}"
-                  placeholder="timetable dateArrivalAtHotel"
-                  class="form-control mb-2">
-          <input
-                  type="date"
-                  name="firstName"
-                  th:field="*{dateCheckoutFromHotel}"
-                  placeholder="timetable dateCheckoutFromHotel"
-                  class="form-control mb-2">
-          <input
-                  type="date"
-                  name="firstName"
-                  th:field="*{arrivalDate}"
-                  placeholder="timetable arrivalDate"
-                  class="form-control mb-2">
-        </div>
-        <br>
+                <label for="flagFire"> Позначити тур як "Палаючий" </label>
+                <br>
+                <input
+                        id="flagFire"
+                        type="checkbox"
+                        name="flagFire"
+                        th:value="true"
+                        th:field="*{flagFire}"
+                        class="form-check-input mt-0" required>
+                <br>
 
-        <button type="submit" class="btn btn-primary mb-2">Add</button>
-      </div>
-    </form>
-  </div>
+                <label for="tour count"> Кількість можливих замовлень </label>
+                <input
+                        id="tour count"
+                        type="text"
+                        name="tour count"
+                        th:field="*{count}"
+                        placeholder="tour count"
+                        class="form-control mb-2" required>
+
+            </div>
+
+            <H3> Характеристики готелю </H3>
+
+            <div class="col-6" th:object="${hotel}">
+                <label for="hotel hotelNam"> Назва готелю </label>
+                <input
+                        id="hotel hotelNam"
+                        type="text"
+                        name="hotelName"
+                        th:field="*{hotelName}"
+                        placeholder="hotel hotelName"
+                        class="form-control mb-2" required>
+                <label for="hotel hotelLocation"> Адреса готелю </label>
+                <input
+                        id="hotel hotelLocation"
+                        type="text"
+                        name="hotelLocation"
+                        th:field="*{hotelLocation}"
+                        placeholder="hotel hotelLocation"
+                        class="form-control mb-2" required>
+
+            </div>
+
+            <div class="col-6" th:object="${hotelClass}">
+                <label for="hotelClass name"> Клас готелю </label>
+                <input
+                        id="hotelClass name"
+                        type="text"
+                        name="hotelClassName"
+                        th:field="*{hotelClassName}"
+                        placeholder="hotelClass name"
+                        class="form-control mb-2" required>
+
+            </div>
+
+            <div class="col-6" th:object="${room}">
+                <div id="room-field-container">
+                    <div class="room-fields">
+                        <label for="room numberOfPeople"> Кількість місць в номері </label>
+                        <input
+                                id="room numberOfPeople"
+                                type="number"
+                                name="numberOfPeople"
+                                th:field="*{roomList[0].numberOfPeople}"
+                                placeholder="room numberOfPeople"
+                                class="form-control mb-2" required>
+                    </div>
+                </div>
+                <button type="button" id="add-rooms-button" class="btn btn-primary mb-2">Додати номер</button>
+            </div>
+            <br>
+            <h5>Спеціальна пропозиція</h5>
+            <br>
+
+            <div class="col-6">
+                <div id="featuresFieldDiv">
+                    <div class="featuresField" th:object="${features}">
+                        <div id="features-field-container">
+                            <div class="feature-fields">
+                                <label for="features featuresName"> Назва спеціальної пропозиції: </label>
+                                <input
+                                        id="features featuresName"
+                                        type="text"
+                                        name="featuresName"
+                                        th:field="*{featureList[0].featuresName}"
+                                        placeholder="features featuresName"
+                                        class="form-control mb-2" required>
+                                <label for="features horseType"> Порода коней </label>
+                                <input
+                                        id="features horseType"
+                                        type="text"
+                                        name="horseType"
+                                        th:field="*{featureList[0].horseType}"
+                                        placeholder="features horseType"
+                                        class="form-control mb-2" required>
+                            </div>
+                        </div>
+                        <button type="button" id="add-features-button" class="btn btn-primary mb-2">Добавити спеціальну
+                            пропозицію
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <h5>Супроводжуючий</h5>
+            <br>
+
+            <div class="col-6" th:object="${companion}">
+                <label for="companion firstName"> Им'я супроводжуючого </label>
+                <input
+                        id="companion firstName"
+                        type="text"
+                        name="companion firstName"
+                        th:field="*{firstName}"
+                        placeholder="companion firstName"
+                        class="form-control mb-2" required>
+                <label for="companion secondName"> Призвіще супроводжуючого </label>
+                <input
+                        id="companion secondName"
+                        type="text"
+                        name="companion secondName"
+                        th:field="*{secondName}"
+                        placeholder="companion secondName"
+                        class="form-control mb-2" required>
+                <label for="companion phone"> Номер телефона супроводжуючого </label>
+                <input
+                        id="companion phone"
+                        type="text"
+                        name="companion phone"
+                        th:field="*{phone}"
+                        placeholder="companion phone"
+                        class="form-control mb-2" required>
+            </div>
+            <br>
+            <h3> Характеристики автобусу </h3>
+
+            <div class="col-6" th:object="${bus}">
+                <label for="bus firmName"> Назва автобусної компанії? </label>
+                <input
+                        id="bus firmName"
+                        type="text"
+                        name="bus firmName"
+                        th:field="*{firmName}"
+                        placeholder="bus firmName"
+                        class="form-control mb-2" required>
+            </div>
+
+            <div class="col-6" th:object="${busType}">
+                <label for="busType name"> Тип автобусу: </label>
+                <input
+                        id="busType name"
+                        type="text"
+                        name="busType name"
+                        th:field="*{name}"
+                        placeholder="busType name"
+                        class="form-control mb-2" required>
+                <label for="seatCount"> Кількість місць в автобусі: </label>
+                <input
+                        id="seatCount"
+                        type="text"
+                        name="seatCount"
+                        th:field="*{seatCount}"
+                        placeholder="busType seatCount"
+                        class="form-control mb-2" required>
+            </div>
+
+            <br>
+            <h5> Розклад </h5>
+            <br>
+
+            <div class="col-6" th:object="${timetable}">
+                <div id="timetable-field-container">
+                    <div class="timetable-fields">
+                        <label for="departureDate"> Дата від'їзду: </label>
+                        <input
+                                id="departureDate"
+                                type="date"
+                                name="departureDate"
+                                th:field="*{timetableList[0].departureDate}"
+                                placeholder="timetable departureDate"
+                                class="form-control mb-2" required>
+                        <label for="dateArrivalAtHotel"> Дата приїзду до готелю: </label>
+                        <input
+                                id="dateArrivalAtHotel"
+                                type="date"
+                                name="dateArrivalAtHotel"
+                                th:field="*{timetableList[0].dateArrivalAtHotel}"
+                                placeholder="timetable dateArrivalAtHotel"
+                                class="form-control mb-2" required>
+                        <label for="dateCheckoutFromHotel"> Дата від'їзду з готелю </label>
+                        <input
+                                id="dateCheckoutFromHotel"
+                                type="date"
+                                name="firstName"
+                                th:field="*{timetableList[0].dateCheckoutFromHotel}"
+                                placeholder="timetable dateCheckoutFromHotel"
+                                class="form-control mb-2" required>
+                        <label for="arrivalDate"> Дата приїзду: </label>
+                        <input
+                                id="arrivalDate"
+                                type="date"
+                                name="firstName"
+                                th:field="*{timetableList[0].arrivalDate}"
+                                placeholder="timetable arrivalDate"
+                                class="form-control mb-2" required>
+                    </div>
+                </div>
+                <button type="button" id="add-timetable-button" class="btn btn-primary mb-2">Додати розклад</button>
+            </div>
+
+            <div class="col-6">
+                <h5> Фотографія </h5>
+
+                <input type="file" name="file" accept="file/*">
+            </div>
+            <br>
+
+
+            <button type="submit" class="btn btn-primary mb-2">Додати тур</button>
+        </form>
+
+    </div>
 </div>
 
 
 <th:block th:insert="blocks/footer :: footer"></th:block>
 
+<script>
+    $(document).ready(function () {
+        var indexFeature = 1;
+        var indexRoom = 1;
+        var indexTimetable = 1;
+
+        // Add button click event
+        $("#add-features-button").click(function () {
+
+            if (indexFeature < 5) {
+
+                var featureFields = $(' <div class="feature-fields">' +
+                    '<label for="features featuresName"> Назва спеціальної пропозиції: </label>' +
+                    '<input type="text" placeholder="features featuresName" id="featureList' + indexFeature + '.featuresName" name="featureList[' + indexFeature + '].featuresName" value="" class="form-control mb-2">' +
+                    '<label for="features horseType"> Порода коней </label>' +
+                    '<input type="text" placeholder="features horseType" id="featureList' + indexFeature + '.horseType" name="featureList[' + indexFeature + '].horseType" value="" class="form-control mb-2">' +
+                    '<button type="button" class="btn btn-primary mb-2" id="remove-feature-button">Видалити</button>' +
+                    '</div>');
+                $("#features-field-container").append(featureFields);
+
+                indexFeature += 1;
+            }
+        });
+
+        // Remove button click event
+        $(document).on("click", "#remove-feature-button", function () {
+            $(this).closest(".feature-fields").remove();
+            indexFeature -= 1;
+        });
+
+
+        // Add button click event
+        $("#add-rooms-button").click(function () {
+
+            if (indexRoom < 5) {
+
+                var roomFields = $('<div class="room-fields">' +
+                    '<label for="room numberOfPeople"> Кількість місць в номері </label>' +
+                    '<input type="text" placeholder="room numberOfPeople" id="roomList' + indexRoom + '.numberOfPeople" name="roomList[' + indexRoom + '].numberOfPeople" value="" class="form-control mb-2">' +
+                    '<button type="button" class="btn btn-primary mb-2" id="remove-room-button">Видалити</button>' +
+                    '</div>');
+                $("#room-field-container").append(roomFields);
+
+                indexRoom += 1;
+            }
+        });
+
+        // Remove button click event
+        $(document).on("click", "#remove-room-button", function () {
+            $(this).closest(".room-fields").remove();
+            indexRoom -= 1;
+        });
+
+
+        $("#add-timetable-button").click(function () {
+
+            if (indexTimetable < 10) {
+
+                var timetableFields = $('<div class="timetable-fields">' +
+                    '<br>' +
+                    '<label> Додатковий розклад: </label>' +
+                    '<br>' +
+                    '<label for="departureDate"> Дата від\'їзду: </label>' +
+                    '<input type="date" placeholder="timetable departureDate" id="timetableList' + indexTimetable + '.departureDate" name="timetableList[' + indexTimetable + '].departureDate" value="" class="form-control mb-2">' +
+                    '<label for="dateArrivalAtHotel"> Дата приїзду до готелю: </label>' +
+                    '<input type="date" placeholder="timetable dateArrivalAtHotel" id="timetableList' + indexTimetable + '.dateArrivalAtHotel" name="timetableList[' + indexTimetable + '].dateArrivalAtHotel" value="" class="form-control mb-2">' +
+                    '<label for="dateCheckoutFromHotel"> Дата від\'їзду з готелю </label>' +
+                    '<input type="date" placeholder="timetable dateCheckoutFromHotel" id="timetableList' + indexTimetable + '.dateCheckoutFromHotel" name="timetableList[' + indexTimetable + '].dateCheckoutFromHotel" value="" class="form-control mb-2">' +
+                    '<label for="arrivalDate"> Дата приїзду: </label>' +
+                    '<input type="date" placeholder="timetable arrivalDate" id="timetableList' + indexTimetable + '.arrivalDate" name="timetableList[' + indexTimetable + '].arrivalDate" value="" class="form-control mb-2">' +
+                    '<button type="button" class="btn btn-primary mb-2" id="remove-timetable-button">Видалити</button>' +
+                    '</div>');
+                $("#timetable-field-container").append(timetableFields);
+
+                indexTimetable += 1;
+            }
+        });
+
+        // Remove button click event
+        $(document).on("click", "#remove-timetable-button", function () {
+            $(this).closest(".timetable-fields").remove();
+            indexTimetable -= 1;
+        });
+    });
+</script>
 
 </body>
 </html>

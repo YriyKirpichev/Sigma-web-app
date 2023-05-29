@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "roles")
