@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Catalog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+    <th:block th:insert="styles :: styles"></th:block>
+</head>
+<body>
+
+<th:block th:insert="blocks/header :: header"></th:block>
+
+<div class="album py-5 bg-light container">
+    <div class="container-md">
+        <h1 th:text="AdminPanel"></h1>
+
+        <h3>Name : [[${user.firstName}]] [[${user.secondName}]] [[${user.middleName}]]</h3>
+        <h3>Username : [[${user.username}]]</h3>
+        <h3>phone : [[${user.phone}]]</h3>
+        <h3>Is Banned? : [[${user.isBanned}]]</h3>
+        <h3>Ban Description : [[${user.banDescription}]]</h3>
+        <h3>Sale : [[${user.Sale}]]</h3>
+        <h3>Birth Date : [[${user.birthDate}]]</h3>
+
+
+        <div class="accordion">
+            <div class="accordion-item">
+
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne"
+                            aria-expanded="false" aria-controls="collapseOne">
+                        Переглянути аккаунти менеджерів
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        <div>
+                            <a th:href="@{/admin/add-manager}" class="btn btn-primary btn-sm mb-3">Створити аккаунт
+                                менеджера</a>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="accordion-body" th:each="manager : ${managers}">
+                                    <h4 th:text="'Логін : ' + ${manager.getUsername()}"></h4>
+                                    <h5 th:text="${manager.getFirstName()} + ' ' + ${manager.getSecondName()}"></h5>
+                                    <h5 th:text="${manager.getPhone()}"></h5>
+                                    <a th:href="@{/admin/delete-manager/{id} (id=${manager.getId()})}"
+                                       class="btn btn-primary btn-sm mb-3">Видалити менеджера</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Переглянути заявки
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body" th:each="request : ${tourRequests}">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 th:text="'Заявка номер № ' + ${request.getId()} "></h4>
+                                <h5 th:text="'Назву туру: ' +  ${request.getTour().getTitle()}"></h5>
+                                <h5 th:text="'Дата та час замовлення: ' +  ${#temporals.format(request.orderDate, 'HH:mm dd.MM.yyyy')}"></h5>
+                                <h5 th:text="'Користувач: ' + ${request.getUser().getFirstName()} + ' ' + ${request.getUser().getSecondName()}"></h5>
+                                <h5 th:text="'Номер телефона користувача: ' + ${request.getUser().getPhone()}"></h5>
+
+                                <th:block th:if="${request.getResponsible() != null}">
+                                    <h5 th:text="'Закріплен за: '+ ${request.getResponsible().getFirstName()} + ' ' + ${request.getResponsible().getSecondName()}"></h5>
+                                </th:block>
+
+                                <a th:href="@{/admin/tour-request/{id} (id=${request.getId()})}"
+                                   class="btn btn-success btn-sm mb-3">Відкрити</a>
+
+                                <th:block th:if="${request.getResponsible() == null}">
+                                    <br>
+                                    <a th:href="@{/admin/clamp-request/{id} (id=${request.getId()})}"
+                                       class="btn btn-primary btn-sm mb-3">Закріпити за собою</a>
+                                </th:block>
+
+                                <th:block th:if="${request.getResponsible() != null}">
+                                    <br>
+                                    <a th:href="@{/admin/unlink-request/{id} (id=${request.getId()})}"
+                                       class="btn btn-primary btn-sm mb-3">Відкріпити від себе</a>
+                                </th:block>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Accordion Item #3
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the
+                        collapse plugin adds the appropriate classes that we use to style each element. These classes
+                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
+                        modify any of this with custom CSS or overriding our default variables. It's also worth noting
+                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
+                        does limit overflow.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <a href="/admin/add-tour" class="btn btn-primary btn-sm mb-3">Create Tour</a>
+        </div>
+
+    </div>
+</div>
+
+<th:block th:insert="blocks/footer :: footer"></th:block>
+
+</body>
+</html>
