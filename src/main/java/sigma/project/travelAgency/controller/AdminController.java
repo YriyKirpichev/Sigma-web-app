@@ -1,24 +1,36 @@
 package sigma.project.travelAgency.controller;
 
 import jakarta.servlet.http.HttpSession;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+<<<<<<< HEAD
 import sigma.project.travelAgency.entity.*;
 import sigma.project.travelAgency.service.imp.*;
+=======
+
+import sigma.project.travelAgency.entity.User;
+import sigma.project.travelAgency.entity.TourRequest;
+
+import sigma.project.travelAgency.service.impl.UserServiceImpl;
+import sigma.project.travelAgency.service.impl.TourRequestServiceImpl;
+>>>>>>> 5e2c4e0f711bd9e60908d3dbaa6c0db260cd0d22
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @Controller
 @AllArgsConstructor
-@RequestMapping("/admin")
+@RequestMapping({"/admin"})
 public class AdminController {
 
+<<<<<<< HEAD
     private UserServiceImpl userService;
     private BusServiceImpl busService;
     private BusTypeServiceImpl busTypeService;
@@ -29,39 +41,49 @@ public class AdminController {
     private RoomServiceImpl roomService;
     private TimetableServiceImpl timetableService;
     private TourServiceImpl tourService;
+=======
+    private final UserServiceImpl userService;
+    private final TourRequestServiceImpl tourRequestService;
+>>>>>>> 5e2c4e0f711bd9e60908d3dbaa6c0db260cd0d22
 
     @ModelAttribute
-    private void addUserDetails(Model model, Principal principal, Authentication authentication) {
+    private void addUserDetails(Model model, Principal principal) {
+
         User user = userService.getUserByUsername(principal.getName());
-//        if (authentication.getAuthorities().stream()
-//                .anyMatch(grantedAuthority -> "ROLE_ADMIN".equals(grantedAuthority.getAuthority()))) {
-//            model.addAttribute("managers", userService.getAllUsers());
-//        }
+        List<TourRequest> tourRequestList = tourRequestService.getAllRequests();
+        tourRequestList.sort(tourRequestService.reversed());
+        List<User> managerList = userService.getByRoles("ROLE_MANAGER");
+
+        model.addAttribute("tourRequests", tourRequestList);
         model.addAttribute("user", user);
+        model.addAttribute("managers", managerList);
+
     }
 
-    @GetMapping("/")
-    public String adminPanel(Model model){
+    @GetMapping(value = "/")
+    public String adminPanelURL_1(Model model) {
+        return "adminPanel";
+    }
+
+    @GetMapping("")
+    public String adminPanelURL_2(Model model) {
         return "adminPanel";
     }
 
     @GetMapping("/add-manager")
-    public String addManager(Model model){
+    public String addManager(Model model) {
         model.addAttribute("manager", new User());
         return "createManager";
     }
 
     @PostMapping(value = "/create-manager", consumes = MediaType.ALL_VALUE)
-    public String createManager(@ModelAttribute("manager") User user, HttpSession session) { //@RequestParam("image") MultipartFile file
+    public String createManager(@ModelAttribute("manager") User user, HttpSession session) {
         if (userService.checkUsername(user.getUsername())) {
             log.info("Manager with this email already exists");
             session.setAttribute("msg", String.format("Email '%s' already used", user.getUsername()));
         } else {
             try {
-//                String filename = UUIDHelper.random();
-//                user.setImageId(filename);
-                userService.createUser(user,"ROLE_MANAGER");
-//                fileService.uploadFile(filename, user.getEmail(), file);
+                userService.createUser(user, "ROLE_MANAGER");
                 session.setAttribute("msg", "Register successfully");
             } catch (Exception exception) {
                 log.error("User creation failed", exception);
@@ -71,6 +93,7 @@ public class AdminController {
         return "redirect:/admin/add-manager";
     }
 
+<<<<<<< HEAD
     @GetMapping("/add-tour")
     public String addTour(Model model){
         model.addAttribute("tour",new Tour());
@@ -116,7 +139,43 @@ public class AdminController {
         return "redirect:/catalog";
     }
 
+=======
+    @GetMapping("/delete-manager/{id}")
+    public String deleteManager(@PathVariable Long id) {
+        userService.deleteById(id);
+        return "redirect:/admin";
+    }
+>>>>>>> 5e2c4e0f711bd9e60908d3dbaa6c0db260cd0d22
 
+    @PostMapping("/ban-user")
+    public String banUser(Model model, @RequestParam("requestId") Long requestId, @RequestParam("userId") Long userId, @ModelAttribute("user") User user) {
+        log.info(user.getBanDescription());
+        userService.banUserById(userId);
+
+        return "redirect:/admin/tour-request/" + requestId.intValue();
+    }
+
+    @GetMapping("/unban-user")
+    public String unbanUser(Model model, @RequestParam("requestId") Long requestId, @RequestParam("userId") Long userId) {
+        userService.unbanUserById(userId);
+        return "redirect:/admin/tour-request/" + requestId.intValue();
+    }
+
+    @GetMapping("/clamp-request/{id}")
+    public String clampRequest(@PathVariable Long id,Principal principal){
+        TourRequest tourRequest = tourRequestService.findById(id);
+        tourRequest.setResponsible(userService.getUserByUsername(principal.getName()));
+        tourRequestService.updateRequest(tourRequest);
+        return "redirect:/admin/";
+    }
+
+    @GetMapping("/unlink-request/{id}")
+    public String unlinkRequest(@PathVariable Long id,Principal principal){
+        TourRequest tourRequest = tourRequestService.findById(id);
+        tourRequest.setResponsible(null);
+        tourRequestService.updateRequest(tourRequest);
+        return "redirect:/admin/";
+    }
 
 
 }

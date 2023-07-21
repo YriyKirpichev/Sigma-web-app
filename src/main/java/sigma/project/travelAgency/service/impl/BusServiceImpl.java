@@ -1,5 +1,12 @@
+<<<<<<< HEAD:src/main/java/sigma/project/travelAgency/service/imp/BusServiceImpl.java
 package sigma.project.travelAgency.service.imp;
 
+=======
+package sigma.project.travelAgency.service.impl;
+
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
+>>>>>>> 5e2c4e0f711bd9e60908d3dbaa6c0db260cd0d22:src/main/java/sigma/project/travelAgency/service/impl/BusServiceImpl.java
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +23,10 @@ import java.util.List;
 public class BusServiceImpl implements BusService {
 
     private BusRepository busRepository;
+<<<<<<< HEAD:src/main/java/sigma/project/travelAgency/service/imp/BusServiceImpl.java
+=======
+    private EntityManager entityManager;
+>>>>>>> 5e2c4e0f711bd9e60908d3dbaa6c0db260cd0d22:src/main/java/sigma/project/travelAgency/service/impl/BusServiceImpl.java
 
 
     @Override
@@ -25,12 +36,25 @@ public class BusServiceImpl implements BusService {
         return busRepository.save(bus);
     }
 
+<<<<<<< HEAD:src/main/java/sigma/project/travelAgency/service/imp/BusServiceImpl.java
     @Override
     public void delete(Long id) {
         log.info("Delete Bus by id: '{}'", id);
         busRepository.deleteById(id);
     }
 
+=======
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        log.info("Delete Bus by id: '{}'", id);
+
+        Bus managedBus = entityManager.merge(busRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Bus doesn't exists")));
+        entityManager.remove(managedBus);
+
+    }
+>>>>>>> 5e2c4e0f711bd9e60908d3dbaa6c0db260cd0d22:src/main/java/sigma/project/travelAgency/service/impl/BusServiceImpl.java
 
     @Override
     public Bus getBusByName(String name) {

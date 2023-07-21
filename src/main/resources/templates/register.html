@@ -20,11 +20,6 @@
     <div class="container-md">
         <h2 class="mb-4"> Registration </h2>
 
-<!--        <th:block th:if="${session.msg}">-->
-<!--            <p class="text-center fs-4 text-success">[[${session.msg}]]</p>-->
-<!--            <th:block th:text="${#session.removeAttribute('msg')}"></th:block>-->
-<!--        </th:block>-->
-
         <form th:action="@{/create-user}" th:object="${user}" method="POST">
             <div class="col-6">
                 <input
@@ -32,43 +27,43 @@
                         name="firstName"
                         th:field="*{firstName}"
                         placeholder="firstName"
-                        class="form-control mb-2">
+                        class="form-control mb-2" required>
                 <input
                         type="text"
                         name="secondName"
                         th:field="*{middleName}"
                         placeholder="middleName"
-                        class="form-control mb-2">
+                        class="form-control mb-2" required>
                 <input
                         type="text"
                         name="middleName"
                         th:field="*{secondName}"
                         placeholder="secondName"
-                        class="form-control mb-2">
+                        class="form-control mb-2" required>
                 <input
                         type="date"
                         th:field="*{birthDate}"
                         placeholder="middleName"
-                        class="form-control mb-2">
+                        class="form-control mb-2" required>
                 <input
                         type="text"
                         name="phone"
                         th:field="*{phone}"
                         placeholder="phone"
-                        class="form-control mb-2">
+                        class="form-control mb-2" required>
                 <input
-                        type="text"
+                        type="email"
                         name="username"
                         th:field="*{username}"
                         placeholder="username"
-                        class="form-control mb-2">
+                        class="form-control mb-2" required>
 
                 <input
                         type="text"
                         name="password"
                         th:field="*{password}"
                         placeholder="password"
-                        class="form-control mb-2">
+                        class="form-control mb-2" required>
 
                 <button type="submit" class="btn btn-primary mb-2">Add</button>
             </div>

@@ -9,7 +9,11 @@ public interface BusService {
 
     Bus createBus (Bus bus,BusType busType);
 
+<<<<<<< HEAD
     void delete(Long id);
+=======
+    void deleteById(Long id);
+>>>>>>> 5e2c4e0f711bd9e60908d3dbaa6c0db260cd0d22
 
     Bus getBusByName(String name);
 

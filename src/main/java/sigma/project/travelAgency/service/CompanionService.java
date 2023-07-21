@@ -13,6 +13,10 @@ public interface CompanionService {
 
     Companion getCompanionByHotel(Hotel hotel);
 
+<<<<<<< HEAD
     void deleteCompanion(Long id);
+=======
+    void deleteById(Long id);
+>>>>>>> 5e2c4e0f711bd9e60908d3dbaa6c0db260cd0d22
 
 }

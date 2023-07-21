@@ -15,4 +15,12 @@ public interface UserService {
 
     List<User> getAllUsers();
 
+    void deleteById(Long id);
+
+    List<User> getByRoles(String role);
+
+    void banUserById(Long id);
+
+    void unbanUserById(Long id);
+
 }

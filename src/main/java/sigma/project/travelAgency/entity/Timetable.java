@@ -9,7 +9,10 @@ import java.util.Collection;
 @Entity
 @Getter
 @Setter
+<<<<<<< HEAD
 @Builder
+=======
+>>>>>>> 5e2c4e0f711bd9e60908d3dbaa6c0db260cd0d22
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "timetable")

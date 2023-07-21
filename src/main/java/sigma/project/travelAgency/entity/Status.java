@@ -7,7 +7,10 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
+<<<<<<< HEAD
 @Builder
+=======
+>>>>>>> 5e2c4e0f711bd9e60908d3dbaa6c0db260cd0d22
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "status")
@@ -20,4 +23,11 @@ public class Status {
 
     private String name;
 
+<<<<<<< HEAD
+=======
+    private String destination;
+
+
+
+>>>>>>> 5e2c4e0f711bd9e60908d3dbaa6c0db260cd0d22
 }
