@@ -1,0 +1,265 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Catalog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+    <th:block th:insert="styles :: styles"></th:block>
+</head>
+<body>
+
+<th:block th:insert="blocks/header :: header"></th:block>
+
+<div class="album py-5 bg-light container">
+    <div class="container-md">
+
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h3 class="text-center" th:text="'Заявка номер № ' + ${request.getId()} "></h3>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col">
+                <div class="card">
+                    <form th:action="@{/admin/tour-request/{id} (id = ${request.getId()})}" th:id="statusForm"
+                          method="post">
+                        <h4 class="text-center"> Інформація про замовлення </h4>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <span class="h6 mb-0 me-1">Відповідальний: </span>
+                                    <span class="h6 fw-light mb-0"
+                                          th:text="${request.getResponsible().getFirstName()} + ' ' + ${request.getResponsible().getSecondName()}">  </span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="h6 mb-0 me-1">Дата та час замовлення:  </span>
+                                    <span class="h6 fw-light mb-0"
+                                          th:text="${#temporals.format(request.getOrderDate(), 'HH:mm dd.MM.yyyy')}">  </span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="h6 mb-0 me-1">Статус:  </span>
+                                    <span class="h6 fw-light mb-0"
+                                          th:text="${request.getStatus().getName()}">  </span>
+                                </li>
+                                <li class="list-group-item" th:object="${statusSet}">
+
+                                    <select class="form-select" th:form="statusForm" th:field="*{id}">
+                                        <option th:value="0" th:text="'Оберить статус:'">
+                                        </option>
+                                        <option th:each="status : ${statuses}"
+                                                th:value="${status.getId()}"
+                                                th:text="${status.getName()}">
+                                        </option>
+                                    </select>
+                                    <br>
+                                    <button type="submit" class="btn btn-primary mb-2">Встановити статус</button>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <h4 class="text-center"> Тур </h4>
+                    <div class="card-body">
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Назва туру: </span>
+                                <span class="h6 fw-light mb-0"> <a
+                                        th:href="@{/tour/{id} (id = ${request.getTour().getId()})}"
+                                        th:text="${request.getTour().getTitle()}"></a>  </span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Ціна туру: </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTour().getCost()}">  </span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Обраний номер на:  </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getCountOfPeople()}">  </span>
+                                <span class="h6 fw-light mb-0"> людей </span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Статус тур:  </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTour().getStatus().getName()}">  </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <h4 class="text-center"> Автобус </h4>
+                    <div class="card-body">
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Назва компанії: </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTour().getTitle()}">  </span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Тип автобусу: </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTour().getBus().iterator().next().getBusType().getName()}">  </span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Обрані місця:  </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getBusPlease()}">  </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <h4 class="text-center"> Готель </h4>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Назва готелю: </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTour().getHotel().getHotelName()}">  </span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Клас готелю: </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTour().getHotel().getHotelClass().getHotelClassName()}">  </span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Адрес готелю:  </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTour().getHotel().getHotelLocation()}">  </span>
+                            </li>
+                        </ul>
+                        <h5 class="text-center"> Супроводжуючий </h5>
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1"> Прізвище їм'я: </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTour().getHotel().getCompanion().getFirstName()} + ' ' + ${request.getTour().getHotel().getCompanion().getSecondName()}"></span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Номер Телефону: </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTour().getHotel().getCompanion().getPhone()}">  </span>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+
+                <div class="card">
+
+                    <h4 class="text-center"> Користувач </h4>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">ФІО: </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getUser().getFirstName()} + ' ' + ${request.getUser().getMiddleName()} + ' ' + ${request.getUser().getSecondName()}">  </span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Пошта: </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getUser().getUsername()}">  </span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Телефон:  </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getUser().getPhone()}">  </span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Персональна знижка:  </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getUser().getSale()}">  </span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Дата народження:  </span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getUser().getBirthDate()}">  </span>
+                            </li>
+                            <th:block th:if="${request.getUser().isBanned()}">
+                                <li class="list-group-item">
+                                    <div class="alert alert-danger" role="alert">
+                                        Користувач заблокований
+                                    </div>
+                                    <a th:href="@{/admin/unban-user(userId = ${request.getUser().getId()},requestId = ${request.getId()})}"
+                                       class="btn btn-success btn-sm mb-3"> Розблокувати користувача </a>
+                                </li>
+                            </th:block>
+                            <th:block th:if="${request.getUser().isBanned() == false}">
+                            <li class="list-group-item">
+                                <form th:action="@{/admin/ban-user(userId = ${request.getUser().getId()},requestId = ${request.getId()})}" th:object="${user}"
+                                      method="post" th:id="banForm">
+                                    <label for="ban" > Введіть причину блокування: </label>
+                                    <textarea id="ban" th:fields="*{banDescription}"
+                                              th:for="banForm">  </textarea>
+                                    <br>
+                                    <button type="submit" class="btn btn-danger btn-sm mb-3"> Заблокувати користувача
+                                    </button>
+                                </form>
+                            </li>
+                            </th:block>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <h4 class="text-center"> Обраний розклад </h4>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Дата виїзду:</span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTimetable().getDepartureDate()}">  </span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Дата прибуття у готель:</span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTimetable().getDateArrivalAtHotel()}"></span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Дата виїзду з готелю:</span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTimetable().getDateCheckoutFromHotel()}"></span>
+                            </li>
+                            <li class="list-group-item">
+                                <span class="h6 mb-0 me-1">Дата приїзду:</span>
+                                <span class="h6 fw-light mb-0"
+                                      th:text="${request.getTimetable().getArrivalDate()}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<th:block th:insert="blocks/footer :: footer"></th:block>
+
+</body>
+</html>
